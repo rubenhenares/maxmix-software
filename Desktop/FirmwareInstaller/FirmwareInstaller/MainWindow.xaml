@@ -7,7 +7,7 @@
                  xmlns:att="clr-namespace:FirmwareInstaller.Framework.Attached"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
-                 Height="400" Width="400"
+                 Height="400" Width="500"
                  Background="{StaticResource WindowBackgroundBrush}"
                  Icon="/Resources/fwinstaller.ico">
 
@@ -18,13 +18,13 @@
             </MenuItem>
 
         </Menu>
-        
+
         <Grid Margin="10" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-        
+
             <Grid Grid.Row="0" IsEnabled="{Binding IsBusy, Converter={StaticResource Cnv_BoolNegate}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -34,43 +34,42 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-        
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width=".5*" />
                 </Grid.ColumnDefinitions>
 
-                 <!-- Versions -->
+                <!-- Versions -->
                 <Label Grid.Column="0" Grid.Row="0" Content="Version" Margin="0,0,0,0"/>
-                <ComboBox Grid.Column="1" Grid.Row="0" Margin="0,0,15,0" HorizontalAlignment="Right" MinWidth="150"
+                <ComboBox Grid.Column="1" Grid.Row="0" Margin="36,0,5,0" MinWidth="150"
                           ItemsSource="{Binding Versions}" SelectedValue="{Binding SelectedVersion}"
                           IsEnabled="{Binding ElementName=CtrlUseCustomFw, Path=IsChecked, Converter={StaticResource Cnv_BoolNegate}}"/>
 
                 <!-- COM -->
                 <Label Grid.Column="0" Grid.Row="2" Content="Port" Margin="0,5,0,0"/>
-                <ComboBox Grid.Column="1" Grid.Row="2" Margin="0,5,15,0" HorizontalAlignment="Right" MinWidth="150"
-                          ItemsSource="{Binding Ports}" SelectedValue="{Binding SelectedPort}"/>
+                <ComboBox Grid.Column="1" Grid.Row="2" Margin="36,5,5,0" MinWidth="150"
+                          ItemsSource="{Binding Ports}" DisplayMemberPath="Name" SelectedValue="{Binding SelectedPort}"/>
 
                 <!-- Custom FW -->
                 <Label Grid.Column="0" Grid.Row="3" Content="Use custom firmware" Margin="0,5,0,0"/>
-                <DockPanel  Grid.Column="1" Grid.Row="3" Margin="0,5,15,0">
-                    <CheckBox x:Name="CtrlUseCustomFw" DockPanel.Dock="Right" IsChecked="{Binding UseCustomFw}"/>
+                <DockPanel  Grid.Column="1" Grid.Row="3" Margin="0,5,0,0">
+                    <CheckBox x:Name="CtrlUseCustomFw" DockPanel.Dock="Right" IsChecked="{Binding UseCustomFw}" Margin="0,0,0,0"/>
                     <Label Content="{Binding CustomFwFilePath}" />
                 </DockPanel>
 
                 <!-- Bootloader -->
                 <Label Grid.Column="0" Grid.Row="4" Content="Use old bootloader" Margin="0,5,0,0"/>
-                <CheckBox Grid.Column="1" Grid.Row="4" Margin="0,5,15,0" HorizontalAlignment="Right"
-                          IsChecked="{Binding UseOldBootloader}"/>
+                <CheckBox Grid.Column="1" Grid.Row="4" Margin="0,0,0,0" HorizontalAlignment="Right" IsChecked="{Binding UseOldBootloader}"/>
 
                 <!-- Install -->
-                <Button Grid.Column="1" Grid.Row="5" Content="Install" Margin="0,5,15,0" MinWidth="150" HorizontalAlignment="Right"
-                        Command="{Binding InstallCommand}"/>
+                <Button Grid.Row="5" Content="Install" Margin="5,5,5,0" MinWidth="150"
+                        Command="{Binding InstallCommand}" Grid.ColumnSpan="2"/>
             </Grid>
-        
+
             <!-- Log -->
-            <ScrollViewer Grid.Row="1"  x:Name="Ctrl_LogScroll" Margin="0,25,0,0" >
-                <TextBox x:Name="Ctrl_Log" IsReadOnly="True" Text="{Binding Log, Mode=OneWay}"/>
+            <ScrollViewer Grid.Row="1"  x:Name="Ctrl_LogScroll" Margin="5,25,5,0" >
+                <TextBox x:Name="Ctrl_Log" IsReadOnly="True" Text="{Binding Log, Mode=OneWay}" Margin="0,0,0,0"/>
             </ScrollViewer>
         </Grid>
     </DockPanel>

@@ -59,7 +59,7 @@ namespace FirmwareInstaller.ViewModels
         private DelegateCommand _installCommand;
         private DelegateCommand<string> _loadFirmwareCommand;
 
-        private string _selectedPort;
+        private COMDevice _selectedPort;
         private string _selectedVersion;
         private string _customFwFilePath;
         private IList<string> _logList;
@@ -88,7 +88,7 @@ namespace FirmwareInstaller.ViewModels
         /// <summary>
         /// Selected COM port.
         /// </summary>
-        public string SelectedPort
+        public COMDevice SelectedPort
         {
             get => _selectedPort;
             set => SetProperty(ref _selectedPort, value);
@@ -146,7 +146,7 @@ namespace FirmwareInstaller.ViewModels
         /// <summary>
         /// List of available COM ports.
         /// </summary>
-        public ObservableCollection<string> Ports { get; private set; }
+        public ObservableCollection<COMDevice> Ports { get; private set; }
 
         /// <summary>
         /// List of available versions to download.
@@ -208,7 +208,7 @@ namespace FirmwareInstaller.ViewModels
         {
             SendLog("Discovering COM devices...");
             var ports = _discoveryService.Discover();
-            Ports = new ObservableCollection<string>(ports);
+            Ports = new ObservableCollection<COMDevice>(ports);
 
             SelectedPort = Ports.FirstOrDefault();
         }
@@ -259,7 +259,7 @@ namespace FirmwareInstaller.ViewModels
             {
                 return false;
             }
-            else if(string.IsNullOrEmpty(SelectedPort))
+            else if(SelectedPort is null)
             {
                 return false;
             }
@@ -291,8 +291,8 @@ namespace FirmwareInstaller.ViewModels
                 }
             }
 
-            SendLog($"Installing file {fwFilePath} to {_selectedPort}");
-            await _installService.InstallAsync(fwFilePath, _selectedPort, _useOldBootloader);
+            SendLog($"Installing file {fwFilePath} to {_selectedPort.Port}");
+            await _installService.InstallAsync(fwFilePath, _selectedPort.Port, _useOldBootloader);
 
             IsBusy = false;
         }
